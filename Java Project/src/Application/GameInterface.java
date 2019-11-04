@@ -3,6 +3,7 @@ package Application;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -24,10 +25,10 @@ public class GameInterface
     public GameInterface(Stage primaryStage)
     {
         this.currentStage = primaryStage;
-        GameStaterScene(1000, 600);
+        GameMenuScene(1000, 600);
     }
 
-    private void GameStaterScene(int X, int Y)
+    private void GameMenuScene(int X, int Y)
     {
         this.currentGroup = new Group();
         Group nbPlayer = new Group();
@@ -56,13 +57,27 @@ public class GameInterface
         titre.setLayoutY(Y/3);
         titre.setAlignment(Pos.CENTER);
 
-        nbPlayer.getChildren().addAll(titre, p2, p3, p4);
+        Button startGame = new Button("Demarrer la partie ");
+        startGame.setFont(Font.font(40));
+        startGame.setLayoutX(X/3);
+        startGame.setLayoutY(2*Y/3);
 
+        nbPlayer.getChildren().addAll(titre, p2, p3, p4, startGame);
         currentGroup.getChildren().add(nbPlayer);
         currentScene = new Scene(currentGroup, X, Y, Color.LIGHTBLUE);
         currentStage.setScene(currentScene);
         currentStage.show();
     }
 
+    private void GameStarterScene(int X, int Y)
+    {
 
+        for (int i = 0; i < 10; i++)
+        {
+            for (int j = 0; i < 10; i++)
+            {
+                Button button = new Button("Case " + i + " / " + j);
+            }
+        }
+    }
 }
