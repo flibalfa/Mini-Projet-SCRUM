@@ -7,6 +7,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -25,12 +28,20 @@ public class GameInterface
     public GameInterface(Stage primaryStage)
     {
         this.currentStage = primaryStage;
-        GameMenuScene(1000, 600);
+        GameMenuScene(1920, 1080);
     }
 
     private void GameMenuScene(int X, int Y)
     {
         this.currentGroup = new Group();
+
+        Image imageFont= new Image("Images/1.jpg", X, Y, false, false);
+        ImageView viewFont = new ImageView(imageFont);
+        currentGroup.getChildren().add(viewFont);
+
+        Image imageButton = new Image("Images/Carrot.jpg", 100, 60, false, false);
+        final ImageView viewButton = new ImageView();
+
         Group nbPlayer = new Group();
         ToggleGroup selectionNbPlayer = new ToggleGroup();
 
@@ -51,20 +62,22 @@ public class GameInterface
         p4.setToggleGroup(selectionNbPlayer);
 
 
-        Label titre = new Label("Nombre de joueur : ");
+        Label titre = new Label("Nombre de joueurs : ");
         titre.setFont(Font.font(40));
         titre.setLayoutX(X/3);
         titre.setLayoutY(Y/3);
         titre.setAlignment(Pos.CENTER);
 
-        Button startGame = new Button("Demarrer la partie ");
+        Button startGame = new Button("Demarer la partie ");
         startGame.setFont(Font.font(40));
         startGame.setLayoutX(X/3);
         startGame.setLayoutY(2*Y/3);
 
         nbPlayer.getChildren().addAll(titre, p2, p3, p4, startGame);
         currentGroup.getChildren().add(nbPlayer);
-        currentScene = new Scene(currentGroup, X, Y, Color.LIGHTBLUE);
+
+
+        currentScene = new Scene(currentGroup, X, Y);
         currentStage.setScene(currentScene);
         currentStage.show();
     }
