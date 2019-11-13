@@ -1,4 +1,3 @@
-import Carte.Carte;
 
 import java.util.*;
 public class Joueur{
