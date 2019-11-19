@@ -10,4 +10,11 @@ public class Carte {
     public void play(){
         return;
     }
+
+    @Override
+    public String toString() {
+        return "Carte{" +
+                "id=" + id +
+                '}';
+    }
 }

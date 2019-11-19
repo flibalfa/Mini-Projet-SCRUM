@@ -1,5 +1,5 @@
-package Application;
-
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -11,8 +11,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+
 
 
 
@@ -20,18 +24,22 @@ public class GameInterface
 {
 
     private Object game;
+    private Deck deck;
 
     private Group currentGroup;
     private Scene currentScene;
     private Stage currentStage;
 
+    final int X = 1920;
+    final int Y = 1080;
+
     public GameInterface(Stage primaryStage)
     {
         this.currentStage = primaryStage;
-        GameMenuScene(1920, 1080);
+        GameMenuScene();
     }
 
-    private void GameMenuScene(int X, int Y)
+    private void GameMenuScene()
     {
         this.currentGroup = new Group();
 
@@ -72,6 +80,12 @@ public class GameInterface
         startGame.setFont(Font.font(40));
         startGame.setLayoutX(X/3);
         startGame.setLayoutY(2*Y/3);
+        startGame.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                GameStarterScene();
+            }
+        });
 
         nbPlayer.getChildren().addAll(titre, p2, p3, p4, startGame);
         currentGroup.getChildren().add(nbPlayer);
@@ -82,15 +96,55 @@ public class GameInterface
         currentStage.show();
     }
 
-    private void GameStarterScene(int X, int Y)
+    private void GameStarterScene()
     {
+        System.out.println("Bite");
+        this.deck = new Deck();
+        this.deck.initDeck();
+        this.currentGroup = new Group();
+        Button buttonDraw = new Button("Piocher");
+        buttonDraw.setLayoutX(1600);
+        buttonDraw.setLayoutY(500);
+        buttonDraw.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Rectangle cache = new Rectangle();
+                cache.setFill(Color.LIGHTBLUE);
+                cache.setLayoutX(1200);
+                cache.setLayoutY(500);
 
+                currentGroup.getChildren().add(cache);
+
+                Carte drawed = deck.pioche();
+                Text carte = new Text(drawed.toString());
+                System.out.println(drawed.toString());
+                carte.setLayoutX(1200);
+                carte.setLayoutY(500);
+                currentGroup.getChildren().add(carte);
+                currentScene = new Scene(currentGroup, X, Y);
+                currentStage.setScene(currentScene);
+                currentStage.show();
+            }
+        });
+        currentGroup.getChildren().add(buttonDraw);
         for (int i = 0; i < 10; i++)
         {
-            for (int j = 0; i < 10; i++)
+            for (int j = 0; j < 10; j++)
             {
+                System.out.println("Case " + i + " / " + j);
                 Button button = new Button("Case " + i + " / " + j);
+                button.setLayoutX(100 + i*80);
+                button.setLayoutY(100 + j*80);
+                currentGroup.getChildren().add(button);
             }
         }
+        Image plateau_image = new Image("Images/Plateau.PNG");
+        ImageView plateau_view = new ImageView(plateau_image);
+
+        this.currentGroup.getChildren().add(plateau_view);
+        this.currentScene = new Scene(currentGroup, X , Y);
+        this.currentStage.setScene(currentScene);
+        this.currentStage.show();
     }
+
 }
