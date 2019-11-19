@@ -3,8 +3,8 @@ public class Construction extends Carte {
     Terrain terrain;
     int numero;
 
-    public Construction(TypeConstruction typeCtonstruction, Terrain terrain, int numero) {
-        super();
+    public Construction(TypeConstruction typeCtonstruction, Terrain terrain, int numero, String img) {
+        super(img);
         this.typeCtonstruction = typeCtonstruction;
         this.terrain = terrain;
         this.numero = numero;
@@ -37,6 +37,11 @@ public class Construction extends Carte {
     @Override
     public void play() {
         //pose une construction sur une case territoire correspondante au choix :
-        //
+        //Pour chaque case, verifier que :
+        //  le joueur possède la case
+        //  case.terrain = carte.terrain || carte.typeConstru = relais
+        //  showPossibleCase()
+        //  placer la constru sur la case sélectionnée
+        //  changer les arguments de la case
     }
 }

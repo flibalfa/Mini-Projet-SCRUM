@@ -1,6 +1,6 @@
 public class Parchemin extends Carte {
-    public Parchemin() {
-        super();
+    public Parchemin(String img) {
+        super(img);
     }
 
     @Override

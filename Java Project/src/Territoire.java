@@ -3,8 +3,8 @@ public class Territoire extends Carte {
     int numero;
     Terrain terrain;
 
-    public Territoire(char lettre, int numero, Terrain terrain) {
-        super();
+    public Territoire(char lettre, int numero, Terrain terrain, String img) {
+        super(img);
         this.lettre = lettre;
         this.numero = numero;
         this.terrain = terrain;

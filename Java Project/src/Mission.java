@@ -1,8 +1,8 @@
 public class Mission extends Parchemin {
     String nom;
 
-    public Mission(String nom) {
-        super();
+    public Mission(String nom, String img) {
+        super(img);
         this.nom = nom;
     }
 

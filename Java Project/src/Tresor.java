@@ -1,8 +1,8 @@
 public class Tresor extends Parchemin {
     int valeur;
 
-    public Tresor(int valeur) {
-        super();
+    public Tresor(int valeur, String img) {
+        super(img);
         this.valeur = valeur;
     }
 
