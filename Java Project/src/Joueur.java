@@ -1,10 +1,8 @@
-
-
 import java.util.*;
 public class Joueur{
     public static final Scanner input = new Scanner(System.in);
-    protected int nbPlayer;
-    protected ArrayList<Carte> hand;
+    public int nbPlayer;
+    public ArrayList<Carte> hand;
 
     public Joueur(int i){
         nbPlayer = i;
@@ -15,12 +13,15 @@ public class Joueur{
         return this.nbPlayer;
     }
 
-    public void addCard(Carte c){
-        hand.add(c);
+    public void addCard(){
+        for (int i = 0; i<10; i++){
+            Carte c = Deck.pioche();
+            hand.add(c);
+        }
     }
 
-    public void playCard(Carte indice){
-        hand.remove(indice);
+    public void selectCard(Carte ct){
+        hand.remove(ct);
     }
 
     public String toString(){
