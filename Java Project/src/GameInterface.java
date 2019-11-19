@@ -108,22 +108,18 @@ public class GameInterface
         buttonDraw.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Rectangle cache = new Rectangle();
-                cache.setFill(Color.LIGHTBLUE);
-                cache.setLayoutX(1200);
-                cache.setLayoutY(500);
-
-                currentGroup.getChildren().add(cache);
-
                 Carte drawed = deck.pioche();
-                Text carte = new Text(drawed.toString());
-                System.out.println(drawed.toString());
-                carte.setLayoutX(1200);
-                carte.setLayoutY(500);
-                currentGroup.getChildren().add(carte);
-                currentScene = new Scene(currentGroup, X, Y);
-                currentStage.setScene(currentScene);
-                currentStage.show();
+                if (drawed.img != null)
+                {
+                    Image carte_image = new Image(drawed.img);
+                    ImageView carte = new ImageView(carte_image);
+                    carte.setLayoutX(1400);
+                    carte.setLayoutY(500);
+                    currentGroup.getChildren().add(carte);
+                    currentScene = new Scene(currentGroup, X, Y);
+                    currentStage.setScene(currentScene);
+                    currentStage.show();
+                }
             }
         });
         currentGroup.getChildren().add(buttonDraw);
@@ -140,6 +136,8 @@ public class GameInterface
         }
         Image plateau_image = new Image("Images/Plateau.PNG");
         ImageView plateau_view = new ImageView(plateau_image);
+        plateau_view.setLayoutX(50);
+        plateau_view.setLayoutY(50);
 
         this.currentGroup.getChildren().add(plateau_view);
         this.currentScene = new Scene(currentGroup, X , Y);
