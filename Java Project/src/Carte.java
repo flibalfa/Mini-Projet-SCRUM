@@ -9,9 +9,7 @@ public class Carte {
         this.img = img;
     }
 
-    public void play(){
-        return;
-    }
+    public void play(){}
 
     @Override
     public String toString() {

@@ -5,11 +5,13 @@ public class Joueur{
     public int nbPlayer;
     public ArrayList<Carte> hand;
     public ArrayList<Carte> carteGarder;
+    public ArrayList<Carte> carteParchemin;
 
     public Joueur(int i){
         nbPlayer = i;
         hand = new ArrayList<Carte>();
         carteGarder = new ArrayList<>();
+        carteParchemin = new ArrayList<>();
     }
 
     public int getNbJoueur(){

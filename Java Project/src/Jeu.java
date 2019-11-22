@@ -18,8 +18,15 @@ public class Jeu {
                 j.choisiCard();
 
                 // Joue ses deux cartes
+                for (int h=0 ; h<2 ; h++){
+                    Carte c = j.carteGarder.get(h);
+                    if (c instanceof Parchemin){
+                        j.carteParchemin.add(c);
+                    }else{
+                        c.play();
+                    }
+                }
             }
-
             // Passe sa mains a son voisin
             if(manche==1 || manche==3){
                 joueurs = Joueur.tournerCarteGauche(joueurs);
@@ -27,9 +34,6 @@ public class Jeu {
                 joueurs = Joueur.tournerCarteDroite(joueurs);
             }
         }
-
-
-        //Phase de Résolution
     }
 
     public Jeu(){
@@ -39,9 +43,6 @@ public class Jeu {
         }
         deck = new Deck();
         deck.initDeck();
-        for (Joueur j : joueurs) {
-
-        }
         manche=1;
         phaseExploration();
     }
