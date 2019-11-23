@@ -9,11 +9,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
@@ -26,8 +22,6 @@ public class GameInterface
     private Object game;
     private Deck deck;
 
-    private Group currentGroup;
-    private Scene currentScene;
     private Stage currentStage;
 
     final int X = 1920;
@@ -41,11 +35,11 @@ public class GameInterface
 
     private void GameMenuScene()
     {
-        this.currentGroup = new Group();
+        Group groupMenuScene = new Group();
 
         Image imageFont= new Image("Images/1.jpg", X, Y, false, false);
         ImageView viewFont = new ImageView(imageFont);
-        currentGroup.getChildren().add(viewFont);
+        groupMenuScene.getChildren().add(viewFont);
 
         Image imageButton = new Image("Images/Carrot.jpg", 100, 60, false, false);
         final ImageView viewButton = new ImageView();
@@ -88,11 +82,11 @@ public class GameInterface
         });
 
         nbPlayer.getChildren().addAll(titre, p2, p3, p4, startGame);
-        currentGroup.getChildren().add(nbPlayer);
+        groupMenuScene.getChildren().add(nbPlayer);
 
 
-        currentScene = new Scene(currentGroup, X, Y);
-        currentStage.setScene(currentScene);
+        Scene menuScene = new Scene(groupMenuScene, X, Y);
+        currentStage.setScene(menuScene);
         currentStage.show();
     }
 
@@ -101,7 +95,7 @@ public class GameInterface
         System.out.println("Bite");
         this.deck = new Deck();
         this.deck.initDeck();
-        this.currentGroup = new Group();
+        Group firstGroup = new Group();
         Button buttonDraw = new Button("Piocher");
         buttonDraw.setLayoutX(1600);
         buttonDraw.setLayoutY(500);
@@ -111,37 +105,27 @@ public class GameInterface
                 Carte drawed = deck.pioche();
                 if (drawed.img != null)
                 {
+                    Group newGroup = new Group(firstGroup);
                     Image carte_image = new Image(drawed.img);
                     ImageView carte = new ImageView(carte_image);
                     carte.setLayoutX(1400);
                     carte.setLayoutY(500);
-                    currentGroup.getChildren().add(carte);
-                    currentScene = new Scene(currentGroup, X, Y);
-                    currentStage.setScene(currentScene);
+                    newGroup.getChildren().add(carte);
+                    Scene newScene = new Scene(newGroup, X, Y);
+                    currentStage.setScene(newScene);
                     currentStage.show();
                 }
             }
         });
-        currentGroup.getChildren().add(buttonDraw);
-        for (int i = 0; i < 10; i++)
-        {
-            for (int j = 0; j < 10; j++)
-            {
-                System.out.println("Case " + i + " / " + j);
-                Button button = new Button("Case " + i + " / " + j);
-                button.setLayoutX(100 + i*80);
-                button.setLayoutY(100 + j*80);
-                currentGroup.getChildren().add(button);
-            }
-        }
+        firstGroup.getChildren().add(buttonDraw);
         Image plateau_image = new Image("Images/Plateau.PNG");
         ImageView plateau_view = new ImageView(plateau_image);
         plateau_view.setLayoutX(50);
         plateau_view.setLayoutY(50);
 
-        this.currentGroup.getChildren().add(plateau_view);
-        this.currentScene = new Scene(currentGroup, X , Y);
-        this.currentStage.setScene(currentScene);
+        firstGroup.getChildren().add(plateau_view);
+        Scene firstScene = new Scene(firstGroup, X , Y);
+        this.currentStage.setScene(firstScene);
         this.currentStage.show();
     }
 
