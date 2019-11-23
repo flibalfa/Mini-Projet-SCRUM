@@ -9,11 +9,11 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-
-
+import java.awt.*;
 
 
 public class GameInterface
@@ -26,6 +26,8 @@ public class GameInterface
 
     final int X = 1920;
     final int Y = 1080;
+    final int ScaleX = 88;
+    final int ScaleY = 90;
 
     public GameInterface(Stage primaryStage)
     {
@@ -120,13 +122,29 @@ public class GameInterface
         firstGroup.getChildren().add(buttonDraw);
         Image plateau_image = new Image("Images/Plateau.PNG");
         ImageView plateau_view = new ImageView(plateau_image);
-        plateau_view.setLayoutX(50);
-        plateau_view.setLayoutY(50);
+        plateau_view.setLayoutX(100);
+        plateau_view.setLayoutY(30);
+        plateau_view.setScaleY(1.18);
+        plateau_view.setScaleX(1.18);
 
         firstGroup.getChildren().add(plateau_view);
         Scene firstScene = new Scene(firstGroup, X , Y);
+        firstScene.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                int x = MouseInfo.getPointerInfo().getLocation().x;
+                int y = MouseInfo.getPointerInfo().getLocation().y;
+                System.out.println(x + " / " + y);
+                System.out.println(getCase(x - 90, y - 45));
+            }
+        });
         this.currentStage.setScene(firstScene);
         this.currentStage.show();
     }
+
+    private String getCase(int x, int y) {
+        return ("" + (x / ScaleX) + " / " + (y / ScaleY));
+    }
+
 
 }
