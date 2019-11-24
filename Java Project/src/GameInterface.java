@@ -7,9 +7,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -23,6 +26,7 @@ public class GameInterface
     private Deck deck;
 
     private Stage currentStage;
+    private Group lastGroup;
 
     final int X = 1920;
     final int Y = 1080;
@@ -95,55 +99,97 @@ public class GameInterface
     private void GameStarterScene()
     {
         System.out.println("Bite");
-        this.deck = new Deck();
-        this.deck.initDeck();
-        Group firstGroup = new Group();
-        Button buttonDraw = new Button("Piocher");
-        buttonDraw.setLayoutX(1600);
-        buttonDraw.setLayoutY(500);
-        buttonDraw.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Carte drawed = deck.pioche();
-                if (drawed.img != null)
-                {
-                    Group newGroup = new Group(firstGroup);
-                    Image carte_image = new Image(drawed.img);
-                    ImageView carte = new ImageView(carte_image);
-                    carte.setLayoutX(1400);
-                    carte.setLayoutY(500);
-                    newGroup.getChildren().add(carte);
-                    Scene newScene = new Scene(newGroup, X, Y);
-                    currentStage.setScene(newScene);
-                    currentStage.show();
+        if (lastGroup != null)
+        {
+            Group firstGroup = new Group(lastGroup);
+            Scene firstScene = new Scene(firstGroup);
+            this.currentStage.setScene(firstScene);
+            this.currentStage.show();
+        }
+        else
+        {
+            this.deck = new Deck();
+            this.deck.initDeck();
+            Group firstGroup = new Group();
+            Button buttonDraw = new Button("Piocher");
+            buttonDraw.setLayoutX(1600);
+            buttonDraw.setLayoutY(500);
+            buttonDraw.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    Carte drawed = deck.pioche();
+                    if (drawed.img != null)
+                    {
+                        Group newGroup = new Group(lastGroup);
+                        Image carte_image = new Image(drawed.img);
+                        ImageView carte = new ImageView(carte_image);
+                        carte.setLayoutX(1400);
+                        carte.setLayoutY(500);
+                        newGroup.getChildren().add(carte);
+                        lastGroup = newGroup;
+                        Scene newScene = new Scene(newGroup, X, Y);
+                        currentStage.setScene(newScene);
+                        currentStage.show();
+                    }
                 }
-            }
-        });
-        firstGroup.getChildren().add(buttonDraw);
-        Image plateau_image = new Image("Images/Plateau.PNG");
-        ImageView plateau_view = new ImageView(plateau_image);
-        plateau_view.setLayoutX(100);
-        plateau_view.setLayoutY(30);
-        plateau_view.setScaleY(1.18);
-        plateau_view.setScaleX(1.18);
+            });
+            firstGroup.getChildren().add(buttonDraw);
+            Image plateau_image = new Image("Images/Plateau.PNG");
+            ImageView plateau_view = new ImageView(plateau_image);
+            plateau_view.setLayoutX(100);
+            plateau_view.setLayoutY(30);
+            plateau_view.setScaleY(1.18);
+            plateau_view.setScaleX(1.18);
 
-        firstGroup.getChildren().add(plateau_view);
-        Scene firstScene = new Scene(firstGroup, X , Y);
-        firstScene.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                int x = MouseInfo.getPointerInfo().getLocation().x;
-                int y = MouseInfo.getPointerInfo().getLocation().y;
-                System.out.println(x + " / " + y);
-                System.out.println(getCase(x - 90, y - 45));
-            }
-        });
-        this.currentStage.setScene(firstScene);
-        this.currentStage.show();
+            firstGroup.getChildren().add(plateau_view);
+            lastGroup = firstGroup;
+            Scene firstScene = new Scene(firstGroup, X , Y);
+            firstGroup.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    int x = MouseInfo.getPointerInfo().getLocation().x;
+                    int y = MouseInfo.getPointerInfo().getLocation().y;
+                    System.out.println(x + " / " + y);
+                    System.out.println(getCaseX(x - 90) + " / " + getCaseY(y - 40));
+                    Group newGroup = new Group(lastGroup);
+                    Rectangle rectangle = caseSelected(getCaseX(x - 90), getCaseY(y - 40));
+                    if (rectangle != null)
+                    {
+                        newGroup.getChildren().add(rectangle);
+                        Scene newScene = new Scene(newGroup);
+                        currentStage.setScene(newScene);
+                        currentStage.show();
+                    }
+                    else
+                    {
+                        GameStarterScene();
+                    }
+                }
+            });
+            this.currentStage.setScene(firstScene);
+            this.currentStage.show();
+        }
     }
 
-    private String getCase(int x, int y) {
-        return ("" + (x / ScaleX) + " / " + (y / ScaleY));
+    private int getCaseX(int x) {
+        return (x / ScaleX);
+    }
+
+    private int getCaseY(int y) {
+        return (y / ScaleY);
+    }
+
+    private Rectangle caseSelected(int x, int y)
+    {
+        if (x >= 10 || y >= 10)
+        {
+            return null;
+        }
+        Rectangle rectangle = new Rectangle(90, 90, Color.BLACK);
+        rectangle.setOpacity(0.5);
+        rectangle.setLayoutX(90 + x * ScaleX);
+        rectangle.setLayoutY(45 + y * ScaleY);
+        return rectangle;
     }
 
 
