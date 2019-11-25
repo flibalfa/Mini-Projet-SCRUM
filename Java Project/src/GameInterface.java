@@ -12,11 +12,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GameInterface
@@ -28,10 +31,14 @@ public class GameInterface
     private Stage currentStage;
     private Group lastGroup;
 
-    final int X = 1920;
-    final int Y = 1080;
-    final int ScaleX = 88;
-    final int ScaleY = 90;
+    final int X = 1500;
+    final int Y = 830;
+    final int ScaleX = 68;
+    final int ScaleY = 68;
+    final int DecalX = 100;
+    final int DecalY = 48;
+    final int DecalXAffichage = 78;
+    final int DecalYAffichage = 68;
 
     public GameInterface(Stage primaryStage)
     {
@@ -111,9 +118,10 @@ public class GameInterface
             this.deck = new Deck();
             this.deck.initDeck();
             Group firstGroup = new Group();
+            firstGroup.getChildren().add(new Rectangle(X, Y, Color.LIGHTBLUE));
             Button buttonDraw = new Button("Piocher");
-            buttonDraw.setLayoutX(1600);
-            buttonDraw.setLayoutY(500);
+            buttonDraw.setLayoutX(1200);
+            buttonDraw.setLayoutY(400);
             buttonDraw.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -123,7 +131,7 @@ public class GameInterface
                         Group newGroup = new Group(lastGroup);
                         Image carte_image = new Image(drawed.img);
                         ImageView carte = new ImageView(carte_image);
-                        carte.setLayoutX(1400);
+                        carte.setLayoutX(1200);
                         carte.setLayoutY(500);
                         newGroup.getChildren().add(carte);
                         lastGroup = newGroup;
@@ -136,23 +144,20 @@ public class GameInterface
             firstGroup.getChildren().add(buttonDraw);
             Image plateau_image = new Image("Images/Plateau.PNG");
             ImageView plateau_view = new ImageView(plateau_image);
-            plateau_view.setLayoutX(100);
-            plateau_view.setLayoutY(30);
-            plateau_view.setScaleY(1.18);
-            plateau_view.setScaleX(1.18);
+            plateau_view.setLayoutX(-50);
+            plateau_view.setLayoutY(-50);
+            plateau_view.setScaleY(0.9);
+            plateau_view.setScaleX(0.9);
 
-            firstGroup.getChildren().add(plateau_view);
-            lastGroup = firstGroup;
-            Scene firstScene = new Scene(firstGroup, X , Y);
-            firstGroup.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            plateau_view.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    int x = MouseInfo.getPointerInfo().getLocation().x;
-                    int y = MouseInfo.getPointerInfo().getLocation().y;
+                    int x = MouseInfo.getPointerInfo().getLocation().x - DecalX;
+                    int y = MouseInfo.getPointerInfo().getLocation().y - DecalY;
                     System.out.println(x + " / " + y);
-                    System.out.println(getCaseX(x - 90) + " / " + getCaseY(y - 40));
+                    System.out.println(getCaseX(x) + " / " + getCaseY(y));
                     Group newGroup = new Group(lastGroup);
-                    Rectangle rectangle = caseSelected(getCaseX(x - 90), getCaseY(y - 40));
+                    Rectangle rectangle = caseSelected(getCaseX(x), getCaseY(y));
                     if (rectangle != null)
                     {
                         newGroup.getChildren().add(rectangle);
@@ -166,17 +171,21 @@ public class GameInterface
                     }
                 }
             });
+
+            firstGroup.getChildren().add(plateau_view);
+            lastGroup = firstGroup;
+            Scene firstScene = new Scene(firstGroup, X , Y);
             this.currentStage.setScene(firstScene);
             this.currentStage.show();
         }
     }
 
     private int getCaseX(int x) {
-        return (x / ScaleX);
+        return (int)(Math.ceil(x / ScaleX)) - 1;
     }
 
     private int getCaseY(int y) {
-        return (y / ScaleY);
+        return (int)(Math.ceil(y / ScaleY)) - 1;
     }
 
     private Rectangle caseSelected(int x, int y)
@@ -185,12 +194,11 @@ public class GameInterface
         {
             return null;
         }
-        Rectangle rectangle = new Rectangle(90, 90, Color.BLACK);
+        Rectangle rectangle = new Rectangle(ScaleX, ScaleY, Color.BLACK);
         rectangle.setOpacity(0.5);
-        rectangle.setLayoutX(90 + x * ScaleX);
-        rectangle.setLayoutY(45 + y * ScaleY);
+        rectangle.setLayoutX(DecalXAffichage + x * ScaleX);
+        rectangle.setLayoutY(DecalYAffichage + y * ScaleY);
         return rectangle;
     }
-
 
 }
