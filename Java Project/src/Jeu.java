@@ -23,7 +23,7 @@ public class Jeu {
                     if (c instanceof Parchemin){
                         j.carteParchemin.add(c);
                     }else{
-                        c.play();
+                        c.play(j);
                     }
                 }
             }

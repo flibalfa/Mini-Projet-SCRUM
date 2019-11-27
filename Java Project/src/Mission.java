@@ -15,7 +15,7 @@ public class Mission extends Parchemin {
     }
 
     @Override
-    public void play() {
+    public void play(Joueur j) {
         //gagne des points si conditions respectés
     }
 }

@@ -4,7 +4,7 @@ public class Parchemin extends Carte {
     }
 
     @Override
-    public void play() {
+    public void play(Joueur j) {
 
     }
 }

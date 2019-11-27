@@ -5,7 +5,7 @@ public class Ravitaillement extends Carte {
     }
 
     @Override
-    public void play() {
+    public void play(Joueur j) {
         //pioche 2 cartes et les joue immédiatement
     }
 }

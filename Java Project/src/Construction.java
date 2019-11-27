@@ -35,7 +35,7 @@ public class Construction extends Carte {
     }
 
     @Override
-    public void play() {
+    public void play(Joueur j) {
         //pose une construction sur une case territoire correspondante au choix :
         //Pour chaque case, verifier que :
         //  le joueur possède la case

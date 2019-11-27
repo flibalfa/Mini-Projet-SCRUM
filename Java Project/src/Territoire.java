@@ -34,8 +34,35 @@ public class Territoire extends Carte {
         this.terrain = terrain;
     }
 
+    public int tabToIndex(){
+        int retour=0;
+        switch (this.lettre){
+            case 'B' : retour = 10 ;
+                break;
+            case 'C' : retour = 20 ;
+                break;
+            case 'D' : retour = 30 ;
+                break;
+            case 'E' : retour = 40 ;
+                break;
+            case 'F' : retour = 50 ;
+                break;
+            case 'G' : retour = 60 ;
+                break;
+            case 'H' : retour = 70 ;
+                break;
+            case 'I' : retour = 80 ;
+                break;
+            case 'J' : retour = 90 ;
+                break;
+        }
+        retour+=this.numero;
+        return retour;
+    }
+
     @Override
-    public void play() {
+    public void play(Joueur j) {
+        GameInterface.addPionJoueur(j,tabToIndex());
         //prend le contrôle du territoire (met un petit lapin dessus) :
         //plateau.putPionJoueur(Joueur joueur);
     }
